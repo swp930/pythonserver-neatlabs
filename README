@@ -1,4 +1,4 @@
-To push to heroku
+To push to heroku:
 git add . && git commit -m "YOUR COMMIT MESSAGE" && git push heroku master
 
 If there are changes made to the database need to run the following commands:
