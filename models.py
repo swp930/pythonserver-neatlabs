@@ -23,3 +23,21 @@ class Book(db.Model):
             'author': self.author,
             'published':self.published
         }
+
+class MoodData(db.Model):
+	__tablename__ = 'mooddata'
+	
+	id = db.Column(db.Integer, primary_key=True)
+	data = db.Column(db.String())
+	
+	def __init__(self, data):
+		self.data = data
+	
+	def __repr__(self):
+		return '<id {}>'.format(self.id)
+	
+	def serialize(self):
+		return {
+			'id': self.id,
+			'data': self.data		
+		}

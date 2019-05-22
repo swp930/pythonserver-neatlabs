@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 
@@ -8,7 +9,7 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-from models import Book
+from models import Book, MoodData
 
 @app.route("/")
 def hello():
@@ -47,6 +48,14 @@ def get_by_id(id_):
     except Exception as e:
 	    return(str(e))
 
+@app.route("/getalldata")
+def get_all_data():
+	try:
+		mooddata=MoodData.query.all()
+		return jsonify([e.serialize() for e in mooddata])
+	except Exception as e:
+		return(str(e))
+
 @app.route("/add/form",methods=['GET', 'POST'])
 def add_book_form():
     if request.method == 'POST':
@@ -65,6 +74,22 @@ def add_book_form():
         except Exception as e:
             return(str(e))
     return render_template("getdata.html")
+
+@app.route("/postbreath",methods=['POST'])
+def submit_post_breath():
+	if request.method == 'POST':
+		print(request.get_json())
+		print("POST BREATH")
+		try:
+			md = MoodData(
+				data=json.dumps(request.get_json())
+			)
+			db.session.add(md)
+			db.session.commit()
+			return "Data added. data id={}".format(book.id)
+		except Exception as e:
+			return(str(e))
+	return 'completed'
 
 if __name__ == '__main__':
     app.run()
