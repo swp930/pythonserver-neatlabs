@@ -2,100 +2,103 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 
 <body>
-    <div class="container">
+	<div class="container">
 
-        <div class="container">
-	    <button id="takeBreath" onClick="takeBreath()">
-     		 Breath
- 	    </button>
-	    <br/>
- 	    <button id="submit" onClick="submit()">
-     		 Submit
- 	    </button>
-	    <br/>
-	    <button id="startTimer" onClick="startTimer()">
-		Start breathing
-	    </button>
- 	    <br/>
-	    <p id="time"></p>
-	    <button onClick="reset()">
-		Reset
-	    </button>
-	    <p id="completed"></p>
-        </div>
-    </div>
+		<div class="container">
+			<br />
+			<button id="startTimer" onClick="startTimer()">
+				Start breathing
+			</button>
+			<br />
+			<p id="time"></p>
+			<button onClick="reset()">
+				Reset
+			</button>
+			<p id="completed"></p>
+		</div>
+		<button id="takeBreath" onClick="takeBreath()">
+			Breath
+		</button>
+		<br />
+		<button id="submit" onClick="submit()">
+			Submit
+		</button>
+	</div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js " integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo "
-        crossorigin="anonymous "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js " integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49 "
-        crossorigin="anonymous "></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js " integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy "
-        crossorigin="anonymous "></script>
-    <script>
-	var globalBreath = []
-	var timeLeft = 30
-	var myVar
-	var isTimerDone
-	var url = "https://pythonserver-neatlabs.herokuapp.com/postbreath"
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js "
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo "
+		crossorigin="anonymous "></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js "
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49 "
+		crossorigin="anonymous "></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js "
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy "
+		crossorigin="anonymous "></script>
+	<script>
+		var globalBreath = []
+		var timeLeft = 30
+		var myVar
+		var isTimerDone
+		var url = "https://pythonserver-neatlabs.herokuapp.com/postbreath"
 
-	function takeBreath() {
-  		globalBreath.push(new Date().getTime())
-  		console.log("Breath taken!")
-	}	
-
-	function submit() {
-  		console.log(globalBreath)
-		xmlhttp = new XMLHttpRequest()
-		xmlhttp.open("POST", url, true)
-		xmlhttp.setRequestHeader("Content-type", "application/json")
-		var obj = {
-			"breaths": globalBreath
+		function takeBreath() {
+			globalBreath.push(new Date().getTime())
+			console.log("Breath taken!")
 		}
-		xmlhttp.send(JSON.stringify(obj))
-		globalBreath = []
-	}
-	
-	function startTimer() {
-		myVar = setInterval(decrementTime, 1000)
-		isTimerDone = false
-		updateButtonSettings()
-	}
-	
-	function decrementTime() {
-		if(timeLeft == 0) {
-			isTimerDone = true
-			document.getElementById("completed").innerHTML = "finished!"
-			clearInterval(myVar)
+
+		function submit() {
+			console.log(globalBreath)
+			xmlhttp = new XMLHttpRequest()
+			xmlhttp.open("POST", url, true)
+			xmlhttp.setRequestHeader("Content-type", "application/json")
+			var obj = {
+				"breaths": globalBreath
+			}
+			xmlhttp.send(JSON.stringify(obj))
+			globalBreath = []
+		}
+
+		function startTimer() {
+			myVar = setInterval(decrementTime, 1000)
+			isTimerDone = false
 			updateButtonSettings()
 		}
-		document.getElementById("time").innerHTML = timeLeft
-		timeLeft--
-	}
 
-	function reset() {
-		clearInterval(myVar)
-		isTimerDone = true
-		timeLeft = 30
-		document.getElementById("time").innerHTML = timeLeft
-		updateButtonSettings()
-	}
-	
-	function updateButtonSettings() {
-		//document.getElementById("startTimer").disabled = !isTimerDone || timeLeft != 0
-		//document.getElementById("takeBreath").disabled = isTimerDone
-		//document.getElementById("submit").disabled = !isTimerDone
-		//document.getElementById("completed").innerHTML = ""
-	}
-    </script>
+		function decrementTime() {
+			if (timeLeft == 0) {
+				isTimerDone = true
+				document.getElementById("completed").innerHTML = "finished!"
+				clearInterval(myVar)
+				updateButtonSettings()
+			}
+			document.getElementById("time").innerHTML = timeLeft
+			timeLeft--
+		}
+
+		function reset() {
+			clearInterval(myVar)
+			isTimerDone = true
+			timeLeft = 30
+			document.getElementById("time").innerHTML = timeLeft
+			updateButtonSettings()
+		}
+
+		function updateButtonSettings() {
+			//document.getElementById("startTimer").disabled = !isTimerDone || timeLeft != 0
+			//document.getElementById("takeBreath").disabled = isTimerDone
+			//document.getElementById("submit").disabled = !isTimerDone
+			//document.getElementById("completed").innerHTML = ""
+		}
+	</script>
 </body>
 
 </html>
