@@ -25,19 +25,46 @@ class Book(db.Model):
         }
 
 class MoodData(db.Model):
-	__tablename__ = 'mooddata'
-	
-	id = db.Column(db.Integer, primary_key=True)
-	data = db.Column(db.String())
-	
-	def __init__(self, data):
-		self.data = data
-	
-	def __repr__(self):
-		return '<id {}>'.format(self.id)
-	
-	def serialize(self):
-		return {
-			'id': self.id,
-			'data': self.data		
-		}
+    __tablename__ = 'mooddata'
+
+    id = db.Column(db.Integer, primary_key=True)
+    data = db.Column(db.String())
+    date = db.Column(db.DateTime())
+
+    def __init__(self, data, date):
+        self.data = data
+        self.date = date
+
+    def __repr__(self):
+    	return '<id {}>'.format(self.id)
+
+    def serialize(self):
+    	return {
+    		'id': self.id,
+			'data': self.data,
+            'date': self.date
+    	}
+
+class UserData(db.Model):
+    __tablename__ = 'userdata'
+
+    id = db.Column(db.Integer, primary_key=True)
+    uniqueidentifier = db.Column(db.String())
+    waketime = db.Column(db.String())
+    sleeptime = db.Column(db.String())
+
+    def __init__(self, uniqueidentifier, waketime, sleeptime):
+        self.uniqueidentifier = uniqueidentifier
+        self.waketime = waketime
+        self.sleeptime = sleeptime
+    
+    def __repr__(self):
+        return '<id {}>'.format(self.id)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'uniqueidentifier': self.uniqueidentifier,
+            'waketime': self.waketime,
+            'sleeptime': self.sleeptime
+        }

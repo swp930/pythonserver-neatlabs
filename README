@@ -6,6 +6,6 @@ If there are changes made to the database need to run the following commands:
 heroku run python manage.py db upgrade --app pythonserver-neatlabs
 
 To run the code locally:
-If there are any changes to the db run: python manage.py db upgrade
+If there are any changes to the db run: python manage.py db migrate, python manage.py db upgrade
 
 Then run: python manage.py db runserver 
