@@ -94,7 +94,7 @@ def addwakesleeptime():
         sleeptime=request.form.get('sleeptime')
         try:
             user=UserData.query.filter_by(uniqueidentifier=uniqueidentifier).first()
-            print user
+            print(user)
             if(user is not None):
                 user.waketime=waketime
                 user.sleeptime=sleeptime
