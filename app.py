@@ -65,7 +65,7 @@ def get_data_between():
         mooddata=MoodData.query.filter(MoodData.date>=date1).filter(MoodData.date<=date2)
         return jsonify([e.serialize() for e in mooddata])
     except Exception as e:
-		return(str(e))
+        return(str(e))
 
 @app.route("/add/form",methods=['GET', 'POST'])
 def add_book_form():

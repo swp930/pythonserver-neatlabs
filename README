@@ -9,3 +9,7 @@ To run the code locally:
 If there are any changes to the db run: python manage.py db migrate, python manage.py db upgrade
 
 Then run: python manage.py db runserver 
+
+To submit data go to 
+url will be either http://127.0.0.1:5000 or https://pythonserver-neatlabs.herokuapp.com/
+<url>/
