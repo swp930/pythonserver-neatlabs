@@ -52,6 +52,7 @@ class UserData(db.Model):
     uniqueidentifier = db.Column(db.String())
     waketime = db.Column(db.String())
     sleeptime = db.Column(db.String())
+    email = db.Column(db.String())
 
     def __init__(self, uniqueidentifier, waketime, sleeptime):
         self.uniqueidentifier = uniqueidentifier
@@ -66,5 +67,6 @@ class UserData(db.Model):
             'id': self.id,
             'uniqueidentifier': self.uniqueidentifier,
             'waketime': self.waketime,
-            'sleeptime': self.sleeptime
+            'sleeptime': self.sleeptime,
+            'email': 'not set'
         }

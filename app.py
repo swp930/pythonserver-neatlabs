@@ -114,6 +114,16 @@ def addwakesleeptime():
             return(str(e))
     return render_template("addwakesleep.html")
 
+@app.route("/makenewuserform", methods=['GET'])
+def makenewuserform():
+    return render_template("addnewuser.html")
+
+@app.route("/makenewuser", methods=['POST'])
+def makenewuser():
+    if request.method == 'POST':
+        print(request.get_json())
+    return 'completed'
+
 @app.route("/getallusers")
 def get_all_users():
 	try:

@@ -12,4 +12,9 @@ Then run: python manage.py db runserver
 
 To submit data go to 
 url will be either http://127.0.0.1:5000 or https://pythonserver-neatlabs.herokuapp.com/
-<url>/
+
+<url>/addwakesleeptime
+-> User can update their waking and sleeping time
+
+<url>/getallusers
+-> Can retrieve all users by their unique identifiers and emails

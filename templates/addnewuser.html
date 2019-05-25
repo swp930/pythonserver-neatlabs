@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="container">
+            <br>
+            <br>
+
+            <div class="row align-items-center justify-content-center">
+                <h1>Add/Update Wake up Sleep time (24 hr format)</h1>
+            </div>
+            <br>
+                <div class="form-row">
+                    <input id="inp1" class="form-control" type="text" placeholder="Unique Identifier" id="uniqueidentifier" name="uniqueidentifier" onchange="changeValue(this.value)">
+                </div>
+            <br><br>
+            <button id="submit" onClick="submit()">
+                    Submit
+            </button>
+        </div>
+    </div>
+
+    <script>
+        var email = ""
+        //var url = "http://127.0.0.1:5000/makenewuser"
+        var url = "https://pythonserver-neatlabs.herokuapp.com/makenewuser"
+        function changeValue(val) {
+            console.log("Change")
+            console.log(val)
+            email = val
+        }
+
+        function submit() {
+            /*xmlhttp = new XMLHttpRequest()
+			xmlhttp.open("GET", url, true)
+			xmlhttp.setRequestHeader("Content-type", "application/json")
+			var obj = {
+				"email": email
+			}
+			xmlhttp.send(JSON.stringify(obj))
+
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                    console.log(xmlhttp.responsetext)
+                }
+            }*/
+            var obj = {
+				"email": email
+			}
+            var xmlHttp = new XMLHttpRequest()
+            xmlHttp.open("POST", url, true); // true for asynchronous 
+                xmlHttp.setRequestHeader("Content-Type", "application/json")
+                xmlHttp.send(JSON.stringify(obj));
+            xmlHttp.onreadystatechange = function() { 
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                    console.log(xmlHttp.responseText)
+            }
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js " integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo "
+        crossorigin="anonymous "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js " integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49 "
+        crossorigin="anonymous "></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js " integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy "
+        crossorigin="anonymous "></script>
+</body>
+
+</html>
