@@ -171,10 +171,14 @@ def submit_post_breath():
         sleeptimemin = int(sleeptimedata[1], 10)
         now = datetime.datetime.now()
         now = now.astimezone(timezone('US/Pacific'))
-        wakedate = datetime.datetime(now.year, now.month, now.day, waketimehr, waketimemin, 0)
-        wakedate = wakedate.astimezone(timezone('US/Pacific'))
-        sleepdate = datetime.datetime(now.year, now.month, now.day, sleeptimehr, sleeptimemin, 0)
-        sleepdate = sleepdate.astimezone(timezone('US/Pacific'))
+        #wakedate = datetime.datetime(now.year, now.month, now.day, waketimehr, waketimemin, 0)
+        #wakedate = wakedate.astimezone(timezone('US/Pacific'))
+        #sleepdate = datetime.datetime(now.year, now.month, now.day, sleeptimehr, sleeptimemin, 0)
+        #sleepdate = sleepdate.astimezone(timezone('US/Pacific'))
+        wakedate = now
+        sleepdate = now
+        wakedate = wakedate.replace(hour=waketimehr).replace(minute=waketimemin).replace(second=0).replace(microsecond=0)
+        sleepdate = sleepdate.replace(hour=sleeptimehr).replace(minute=sleeptimemin).replace(second=0).replace(microsecond=0)
         print("Now post breath: ", now)
         print("Wakedate: ", wakedate)
         print("Sleepdate: ", sleepdate)
