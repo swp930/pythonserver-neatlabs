@@ -150,8 +150,8 @@ def getuserinfo(id_):
 
 @app.route("/postbreath",methods=['POST'])
 def submit_post_breath():
-    if request.method == 'POST':
-        print(request.get_json()["breaths"])
+	if request.method == 'POST':
+		print(request.get_json()["breaths"])
         print(request.get_json()["uniqueidentifier"])
         print("POST BREATH")
         waketime = ""
