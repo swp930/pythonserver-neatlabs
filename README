@@ -18,3 +18,10 @@ url will be either http://127.0.0.1:5000 or https://pythonserver-neatlabs.heroku
 
 <url>/getallusers
 -> Can retrieve all users by their unique identifiers and emails
+
+Five intervals from 3:00 to 22:00 [Intervals of 3:50]
+2019-05-26 03:00:00
+2019-05-26 06:48:00
+2019-05-26 10:36:00
+2019-05-26 14:24:00
+2019-05-26 18:12:00

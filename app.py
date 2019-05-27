@@ -60,7 +60,7 @@ def get_all_data():
 @app.route("/getuserdata/<id_>")
 def getuserdata(id_):
     try:
-        userData=UserData.query.filter_by(uniqueidentifier=id_).all()
+        userData=ModelData.query.filter_by(uniqueidentifier=id_).all()
         return jsonify([e.serialize() for e in userData])
     except Exception as e:
 	    return(str(e))
@@ -160,24 +160,53 @@ def submit_post_breath():
             user=UserData.query.filter_by(uniqueidentifier=request.get_json()["uniqueidentifier"]).first()
             waketime = user.waketime
             sleeptime = user.sleeptime
-            print(user.waketime)
-            print(user.sleeptime)
-            return "done"
         except Exception as e:
 	        return(str(e))
+        waketimedata = waketime.split(":")
+        sleeptimedata = sleeptime.split(":")
+        waketimehr = int(waketimedata[0], 10)
+        waketimemin = int(waketimedata[1], 10)
+        sleeptimehr = int(sleeptimedata[0], 10)
+        sleeptimemin = int(sleeptimedata[1], 10)
+        now = datetime.datetime.now()
+        wakedate = datetime.datetime(now.year, now.month, now.day, waketimehr, waketimemin, 0)
+        sleepdate = datetime.datetime(now.year, now.month, now.day, sleeptimehr, sleeptimemin, 0)
+        if(now < wakedate or now > sleepdate):
+            return "False"
+        diff = abs(sleepdate - wakedate)
+        increment = diff/5
+        intervalStart = wakedate
+
+        while(intervalStart + increment <= sleepdate and not(now >= intervalStart and now <= (intervalStart + increment))):
+            intervalStart += increment
+        startTime = intervalStart
+        endTime = intervalStart + increment
+
+        try:
+            mooddata=MoodData.query.filter_by(uniqueidentifier=request.get_json()["uniqueidentifier"]).\
+            filter(MoodData.date>=startTime).filter(MoodData.date<=endTime).all()
+            if(len(mooddata) > 0):
+                print("Invalid submission!")
+                return "False"
+        except Exception as e:
+            print(str(e))
+            return(str(e))
+
+        print(startTime)
+        print(endTime)
+
         try:
             md = MoodData(
 				data=json.dumps(request.get_json()["breaths"]),
                 date=datetime.datetime.now(),
-                email=request.get_json()["uniqueidentifier"]
+                uniqueidentifier=request.get_json()["uniqueidentifier"]
 			)
             db.session.add(md)
             db.session.commit()
-            return "Data added. data id={}".format(book.id)
+            return "True"
         except Exception as e:
-            return(str(e))
-            
-            return 'completed'
+            return(str(e))    
+        return 'completed'
 
 if __name__ == '__main__':
     app.run()

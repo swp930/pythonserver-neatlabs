@@ -35,6 +35,10 @@
 		</button>
 		<p id="submitcancelled">
 		</p>
+		<p id="validsubmission">
+		</p>
+		<p id="envtest">
+		</p>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js "
@@ -52,8 +56,8 @@
 		var timeLeft = timeDuration
 		var myVar
 		var isTimerDone = false
-		//var url = "https://pythonserver-neatlabs.herokuapp.com/postbreath"
-		var url = "http://127.0.0.1:5000/postbreath"
+		var url = "https://pythonserver-neatlabs.herokuapp.com/postbreath"
+		//var url = "http://127.0.0.1:5000/postbreath"
 		var uniqueIdentifier
 		var isTimerRunning = false
 		document.getElementById("submit").disabled = !isTimerDone
@@ -62,6 +66,28 @@
 		function changeVal(val) {
 			uniqueIdentifier = val
 		}
+
+		/*function getURL() {
+			var url = "http://127.0.0.1:5000/postbreath"
+			console.log(globalBreath)
+			xmlhttp = new XMLHttpRequest()
+			xmlhttp.open("POST", url, true)
+			xmlhttp.setRequestHeader("Content-type", "application/json")
+			var obj = {
+				"breaths": globalBreath,
+				"uniqueidentifier": uniqueIdentifier
+			}
+			xmlhttp.send(JSON.stringify(obj))
+			globalBreath = []
+			xmlhttp.onreadystatechange = function() { 
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                    console.log(xmlhttp.responseText)
+					if(xmlhttp.responseText === "True")
+						document.getElementById("validsubmission").innerHTML = "Successfully submitted!"
+					else 
+						document.getElementById("validsubmission").innerHTML = "You have already submitted for this period or there was an error"
+            }
+		}*/
 
 		function takeBreath() {
 			globalBreath.push(new Date().getTime())
@@ -79,6 +105,14 @@
 			}
 			xmlhttp.send(JSON.stringify(obj))
 			globalBreath = []
+			xmlhttp.onreadystatechange = function() { 
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                    console.log(xmlhttp.responseText)
+					if(xmlhttp.responseText === "True")
+						document.getElementById("validsubmission").innerHTML = "Successfully submitted!"
+					else 
+						document.getElementById("validsubmission").innerHTML = "You have already submitted for this period or there was an error"
+            }
 		}
 
 		function startTimer() {
