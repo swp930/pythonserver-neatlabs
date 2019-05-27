@@ -57,6 +57,14 @@ def get_all_data():
 	except Exception as e:
 		return(str(e))
 
+@app.route("/getuserdata/<id_>")
+def getuserdata(id_):
+    try:
+        userData=UserData.query.filter_by(uniqueidentifier=id_).all()
+        return jsonify([e.serialize() for e in userData])
+    except Exception as e:
+	    return(str(e))
+
 @app.route("/getdatabetween")
 def get_data_between():
     date1 = datetime.datetime(2019, 5, 22, 12, 00, 0)
@@ -143,19 +151,33 @@ def getuserinfo(id_):
 @app.route("/postbreath",methods=['POST'])
 def submit_post_breath():
 	if request.method == 'POST':
-		print(request.get_json())
-		print("POST BREATH")
-		try:
-			md = MoodData(
-				data=json.dumps(request.get_json()),
-                date=datetime.datetime.now()
+		print(request.get_json()["breaths"])
+        print(request.get_json()["uniqueidentifier"])
+        print("POST BREATH")
+        waketime = ""
+        sleeptime = ""
+        try:
+            user=UserData.query.filter_by(uniqueidentifier=request.get_json()["uniqueidentifier"]).first()
+            waketime = user.waketime
+            sleeptime = user.sleeptime
+            print(user.waketime)
+            print(user.sleeptime)
+            return "done"
+        except Exception as e:
+	        return(str(e))
+        try:
+            md = MoodData(
+				data=json.dumps(request.get_json()["breaths"]),
+                date=datetime.datetime.now(),
+                email=request.get_json()["uniqueidentifier"]
 			)
-			db.session.add(md)
-			db.session.commit()
-			return "Data added. data id={}".format(book.id)
-		except Exception as e:
-			return(str(e))
-	return 'completed'
+            db.session.add(md)
+            db.session.commit()
+            return "Data added. data id={}".format(book.id)
+        except Exception as e:
+            return(str(e))
+            
+            return 'completed'
 
 if __name__ == '__main__':
     app.run()

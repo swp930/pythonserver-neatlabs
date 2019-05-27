@@ -30,10 +30,12 @@ class MoodData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     data = db.Column(db.String())
     date = db.Column(db.DateTime())
+    email = db.Column(db.String())
 
-    def __init__(self, data, date):
+    def __init__(self, data, date, email):
         self.data = data
         self.date = date
+        self.email = email
 
     def __repr__(self):
     	return '<id {}>'.format(self.id)
@@ -42,7 +44,8 @@ class MoodData(db.Model):
     	return {
     		'id': self.id,
 			'data': self.data,
-            'date': self.date
+            'date': self.date,
+            'email': self.email
     	}
 
 class UserData(db.Model):
