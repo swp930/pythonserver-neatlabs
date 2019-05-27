@@ -1,4 +1,5 @@
 from app import db
+from pytz import timezone
 
 class Book(db.Model):
     __tablename__ = 'books'
@@ -41,8 +42,10 @@ class MoodData(db.Model):
     	return '<id {}>'.format(self.id)
 
     def serialize(self):
-    	return {
-    		'id': self.id,
+        self.date = self.date.astimezone(timezone('US/Pacific'))
+        print(self.date)
+        return {
+            'id': self.id,
 			'data': self.data,
             'date': self.date,
             'uniqueidentifier': self.uniqueidentifier

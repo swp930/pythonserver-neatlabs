@@ -3,6 +3,7 @@ import json
 import datetime
 from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
+from pytz import timezone
 
 app = Flask(__name__)
 
@@ -169,10 +170,14 @@ def submit_post_breath():
         sleeptimehr = int(sleeptimedata[0], 10)
         sleeptimemin = int(sleeptimedata[1], 10)
         now = datetime.datetime.now()
+        now = now.astimezone(timezone('US/Pacific'))
         wakedate = datetime.datetime(now.year, now.month, now.day, waketimehr, waketimemin, 0)
         sleepdate = datetime.datetime(now.year, now.month, now.day, sleeptimehr, sleeptimemin, 0)
+        print("Now post breath: ", now)
+        print("Wakedate: ", wakedate)
+        print("Sleepdate: ", sleepdate)
         if(now < wakedate or now > sleepdate):
-            return "False"
+            return "False out of range"
         diff = abs(sleepdate - wakedate)
         increment = diff/5
         intervalStart = wakedate
@@ -187,7 +192,7 @@ def submit_post_breath():
             filter(MoodData.date>=startTime).filter(MoodData.date<=endTime).all()
             if(len(mooddata) > 0):
                 print("Invalid submission!")
-                return "False"
+                return "False already submitted"
         except Exception as e:
             print(str(e))
             return(str(e))
