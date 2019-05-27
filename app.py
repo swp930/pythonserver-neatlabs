@@ -60,7 +60,7 @@ def get_all_data():
 @app.route("/getuserdata/<id_>")
 def getuserdata(id_):
     try:
-        userData=ModelData.query.filter_by(uniqueidentifier=id_).all()
+        userData=MoodData.query.filter_by(uniqueidentifier=id_).all()
         return jsonify([e.serialize() for e in userData])
     except Exception as e:
 	    return(str(e))
