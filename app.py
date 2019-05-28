@@ -192,12 +192,16 @@ def submit_post_breath():
             intervalStart += increment
         startTime = intervalStart
         endTime = intervalStart + increment
-
+        print("Start time: ", startTime)
+        print("End time: ", endTime)
         try:
             mooddata=MoodData.query.filter_by(uniqueidentifier=request.get_json()["uniqueidentifier"]).\
             filter(MoodData.date>=startTime).filter(MoodData.date<=endTime).all()
             if(len(mooddata) > 0):
                 print("Invalid submission!")
+                print("Data: ", mooddata)
+                arr = [e.date for e in mooddata]
+                print("Dates for data: ", arr)
                 return "False already submitted"
         except Exception as e:
             print(str(e))
