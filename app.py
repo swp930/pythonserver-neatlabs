@@ -155,6 +155,8 @@ def submit_post_breath():
         print(request.get_json()["breaths"])
         print(request.get_json()["uniqueidentifier"])
         print("POST BREATH")
+        datapoints = request.get_json()["datapoints"]
+        print(datapoints)
         waketime = ""
         sleeptime = ""
         try:
@@ -213,6 +215,7 @@ def submit_post_breath():
         try:
             md = MoodData(
 				data=json.dumps(request.get_json()["breaths"]),
+                datapoints=json.dumps([int(a, 10) for a in datapoints]),
                 date=datetime.datetime.now(),
                 uniqueidentifier=request.get_json()["uniqueidentifier"]
 			)

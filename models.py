@@ -30,11 +30,13 @@ class MoodData(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     data = db.Column(db.String())
+    datapoints = db.Column(db.String())
     date = db.Column(db.DateTime())
     uniqueidentifier = db.Column(db.String())
 
-    def __init__(self, data, date, uniqueidentifier):
+    def __init__(self, data, datapoints, date, uniqueidentifier):
         self.data = data
+        self.datapoints = datapoints
         self.date = date
         self.uniqueidentifier = uniqueidentifier
 
@@ -43,10 +45,10 @@ class MoodData(db.Model):
 
     def serialize(self):
         self.date = self.date.astimezone(timezone('US/Pacific'))
-        print(self.date)
         return {
             'id': self.id,
 			'data': self.data,
+            'datapoints': self.datapoints,
             'date': self.date,
             'uniqueidentifier': self.uniqueidentifier
     	}

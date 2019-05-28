@@ -12,23 +12,37 @@
 
 <body>
 	<div class="container">
+		<br/>
 		<input placeholder="Enter unique indentifier" onchange="changeVal(this.value)"></input>
-
-		<div class="container">
-			<br />
-			<button id="startTimer" onClick="startTimer()">
-				Start breathing
-			</button>
-			<br />
-			<p id="time"></p>
-			<button onClick="reset()">
-				Reset
-			</button>
-			<p id="completed"></p>
-		</div>
+		<br />
+		<br />
+		<button id="startTimer" onClick="startTimer()">
+			Start breathing
+		</button>
+		<br />
+		<p id="time"></p>
+		<button onClick="reset()">
+			Reset
+		</button>
+		<p id="completed"></p>
 		<button id="takeBreath" onClick="takeBreath()">
 			Breath
 		</button>
+		<br />
+		<br />
+		<p>How quiet vs noisy is your environment right now?</p>
+		<input id = "input1" type="range" min="1" max="7" value="3">
+		<p id="output1"></p>
+		<p>How focused vs distracted do you feel right now?</p>
+		<input id = "input2" type="range" min="1" max="7" value="3">
+		<p id="output2"></p>
+		<p>How relaxed vs anxious do you feel right now?</p>
+		<input id = "input3" type="range" min="1" max="7" value="3">
+		<p id="output3"></p>
+		<p>How happy vs sad do you feel right now?</p>
+		<input id = "input4" type="range" min="1" max="7" value="3">
+		<p id="output4"></p>
+		<br/>
 		<br />
 		<button id="submit" onClick="submit()">
 			Submit
@@ -56,10 +70,30 @@
 		var timeLeft = timeDuration
 		var myVar
 		var isTimerDone = false
-		var url = "https://pythonserver-neatlabs.herokuapp.com/postbreath"
-		//var url = "http://127.0.0.1:5000/postbreath"
+		//var url = "https://pythonserver-neatlabs.herokuapp.com/postbreath"
+		var url = "http://127.0.0.1:5000/postbreath"
 		var uniqueIdentifier
 		var isTimerRunning = false
+		var input1 = document.getElementById("input1")
+		var input2 = document.getElementById("input2")
+		var input3 = document.getElementById("input3")
+		var input4 = document.getElementById("input4")
+
+		var output1 = document.getElementById("output1")
+		var output2 = document.getElementById("output2")
+		var output3 = document.getElementById("output3")
+		var output4 = document.getElementById("output4")
+
+		var data1 = input1.value
+		var data2 = input2.value
+		var data3 = input3.value
+		var data4 = input4.value
+
+		output1.innerHTML = data1
+		output2.innerHTML = data2
+		output3.innerHTML = data3
+		output4.innerHTML = data4
+
 		document.getElementById("submit").disabled = !isTimerDone
 		document.getElementById("takeBreath").disabled = !isTimerRunning
 
@@ -99,9 +133,11 @@
 			xmlhttp = new XMLHttpRequest()
 			xmlhttp.open("POST", url, true)
 			xmlhttp.setRequestHeader("Content-type", "application/json")
+			var data = [data1, data2, data3, data4]
 			var obj = {
 				"breaths": globalBreath,
-				"uniqueidentifier": uniqueIdentifier
+				"uniqueidentifier": uniqueIdentifier,
+				"datapoints": data
 			}
 			xmlhttp.send(JSON.stringify(obj))
 			globalBreath = []
@@ -149,6 +185,26 @@
 			document.getElementById("startTimer").disabled = isTimerRunning || isTimerDone
 			document.getElementById("takeBreath").disabled = !isTimerRunning
 			document.getElementById("submit").disabled = !isTimerDone
+		}
+
+		input1.oninput = function() {
+			data1 = this.value
+  			output1.innerHTML = data1
+		}
+
+		input2.oninput = function() {
+			data2 = this.value
+  			output2.innerHTML = data2
+		}
+
+		input3.oninput = function() {
+			data3 = this.value
+  			output3.innerHTML = data3
+		}
+
+		input4.oninput = function() {
+			data4 = this.value
+  			output4.innerHTML = data4
 		}
 	</script>
 </body>
