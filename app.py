@@ -216,7 +216,7 @@ def submit_post_breath():
             md = MoodData(
 				data=json.dumps(request.get_json()["breaths"]),
                 datapoints=json.dumps([int(a, 10) for a in datapoints]),
-                date=datetime.datetime.now(),
+                date=datetime.datetime.now().astimezone(timezone('US/Pacific')),
                 uniqueidentifier=request.get_json()["uniqueidentifier"]
 			)
             db.session.add(md)
