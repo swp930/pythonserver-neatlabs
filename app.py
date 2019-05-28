@@ -200,7 +200,7 @@ def submit_post_breath():
             if(len(mooddata) > 0):
                 print("Invalid submission!")
                 print("Data: ", mooddata)
-                arr = [e.date for e in mooddata]
+                arr = [e.date.astimezone(timezone('US/Pacific')) for e in mooddata]
                 print("Dates for data: ", arr)
                 return "False already submitted"
         except Exception as e:
