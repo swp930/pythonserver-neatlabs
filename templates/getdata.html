@@ -11,47 +11,53 @@
 </head>
 
 <body>
-	<div class="container" style = "width: 100%">
-		<br/>
-		<input placeholder="Enter unique indentifier" onchange="changeVal(this.value)"></input>
-		<br />
-		<br />
-		<p>How quiet vs noisy is your environment right now?</p>
-		<input id = "input1" type="range" min="1" max="7" value="3" style="margin: 0 50%">
-		<p id="output1"></p>
-		<p>How focused vs distracted do you feel right now?</p>
-		<input id = "input2" type="range" min="1" max="7" value="3" style="margin: 0 50%">
-		<p id="output2"></p>
-		<p>How relaxed vs anxious do you feel right now?</p>
-		<input id = "input3" type="range" min="1" max="7" value="3" style="margin: 0 50%">
-		<p id="output3"></p>
-		<p>How happy vs sad do you feel right now?</p>
-		<input id = "input4" type="range" min="1" max="7" value="3" style="margin: 0 50%">
-		<p id="output4"></p>
-		<button id="startTimer" onClick="startTimer()">
-			Start breathing
-		</button>
-		<br />
-		<p id="time"></p>
-		<button onClick="reset()">
-			Reset
-		</button>
-		<p id="completed"></p>
-		<button id="takeBreath" onClick="takeBreath()">
-			Register Breath
-		</button>
-		<p id="numbreaths"></p>
-		<br />
-		<br />
-		<button id="submit" onClick="submit()">
-			Submit
-		</button>
-		<p id="submitcancelled">
-		</p>
-		<p id="validsubmission">
-		</p>
-		<p id="envtest">
-		</p>
+	<div class="container" style="width: 100%">
+	</div>
+
+	<div class="container">
+
+		<div class="container">
+			<br />
+			<input placeholder="Enter unique indentifier" onchange="changeVal(this.value)"></input>
+			<br />
+			<br />
+			<p>How quiet vs noisy is your environment right now?</p>
+			<input id="input1" type="range" min="1" max="7" value="3" style="margin: 0 50%">
+			<p id="output1"></p>
+			<p>How focused vs distracted do you feel right now?</p>
+			<input id="input2" type="range" min="1" max="7" value="3" style="margin: 0 50%">
+			<p id="output2"></p>
+			<p>How relaxed vs anxious do you feel right now?</p>
+			<input id="input3" type="range" min="1" max="7" value="3" style="margin: 0 50%">
+			<p id="output3"></p>
+			<p>How happy vs sad do you feel right now?</p>
+			<input id="input4" type="range" min="1" max="7" value="3" style="margin: 0 50%">
+			<p id="output4"></p>
+			<button id="startTimer" onClick="startTimer()">
+				Start breathing
+			</button>
+			<br />
+			<p id="time"></p>
+			<button onClick="reset()">
+				Reset
+			</button>
+			<p id="completed"></p>
+			<button id="takeBreath" onClick="takeBreath()">
+				Register Breath
+			</button>
+			<p id="numbreaths"></p>
+			<br />
+			<br />
+			<button id="submit" onClick="submit()">
+				Submit
+			</button>
+			<p id="submitcancelled">
+			</p>
+			<p id="validsubmission">
+			</p>
+			<p id="envtest">
+			</p>
+		</div>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js "
@@ -141,14 +147,14 @@
 			}
 			xmlhttp.send(JSON.stringify(obj))
 			globalBreath = []
-			xmlhttp.onreadystatechange = function() { 
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
-                    console.log(xmlhttp.responseText)
-					if(xmlhttp.responseText === "True")
-						document.getElementById("validsubmission").innerHTML = "Successfully submitted!"
-					else 
-						document.getElementById("validsubmission").innerHTML = "You have already submitted for this period or there was an error"
-            }
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					console.log(xmlhttp.responseText)
+				if (xmlhttp.responseText === "True")
+					document.getElementById("validsubmission").innerHTML = "Successfully submitted!"
+				else
+					document.getElementById("validsubmission").innerHTML = "You have already submitted for this period or there was an error"
+			}
 		}
 
 		function startTimer() {
@@ -187,24 +193,24 @@
 			document.getElementById("submit").disabled = !isTimerDone
 		}
 
-		input1.oninput = function() {
+		input1.oninput = function () {
 			data1 = this.value
-  			output1.innerHTML = data1
+			output1.innerHTML = data1
 		}
 
-		input2.oninput = function() {
+		input2.oninput = function () {
 			data2 = this.value
-  			output2.innerHTML = data2
+			output2.innerHTML = data2
 		}
 
-		input3.oninput = function() {
+		input3.oninput = function () {
 			data3 = this.value
-  			output3.innerHTML = data3
+			output3.innerHTML = data3
 		}
 
-		input4.oninput = function() {
+		input4.oninput = function () {
 			data4 = this.value
-  			output4.innerHTML = data4
+			output4.innerHTML = data4
 		}
 	</script>
 </body>
