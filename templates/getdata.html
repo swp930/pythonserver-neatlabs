@@ -38,8 +38,9 @@
 		</button>
 		<p id="completed"></p>
 		<button id="takeBreath" onClick="takeBreath()">
-			Breath
+			Register Breath
 		</button>
+		<p id="numbreaths"></p>
 		<br />
 		<br />
 		<button id="submit" onClick="submit()">
@@ -124,6 +125,7 @@
 		function takeBreath() {
 			globalBreath.push(new Date().getTime())
 			console.log("Breath taken!")
+			document.getElementById("numbreaths").innerHTML = "Number of breaths registered: " + globalBreath.length
 		}
 
 		function submit() {
