@@ -22,34 +22,142 @@
             </div>
             <br>
 
-            <form method="POST">
+            <form name="addwakesleep" method="POST">
 
-                <label for="uniqueidentifier">Unique Identifier</label>
                 <div class="form-row">
-                    <input class="form-control" type="text" placeholder="Unique Identifier" id="uniqueidentifier" name="uniqueidentifier">
+                    <label for="uniqueidentifier">Please enter your email username. </label>
+                    <input class="form-control" type="text" placeholder="Email username" id="uniqueidentifier" name="uniqueidentifier">
                 </div>
+                <p id="error-uniqueidentifier"></p>
+                <br>
+
+                <div class="form-row">
+                    <label for="phonenumber">Please enter your phone number. eg. 0123456789 </label>
+                    <input class="form-control" type="text" placeholder="Phone number" id="phonenumber" name="phonenumber">
+                </div>
+                <p id="error-phonenumber"></p>
+                
+                <br>
+                Phone service provider:
+                <br>
+                <div class="form-row">
+                    <select id="carrier" name="carrier" id="carrier">
+                        <option value="default" selected="selected">Choose a carrier</option>
+                        <option value="att">AT&T</option>
+                        <option value="tmobile">TMobile</option>
+                        <option value="verizon">Verizon</option>
+                        <option value="sprint">Sprint</option>
+                    </select>
+                </div>
+                <p id="error-carrier"></p>
 
                 <br>
 
                 <div class="form-row">
-                    <label for="waketime">Waking Up Time</label>
+                    <label for="startdate">Start date, mm/dd/yyyy eg. 05/31/2019</label>
+                    <input class="form-control" type="text" placeholder="Start date" id="startdate" name="startdate">
+                </div>
+                <p id="error-startdate"></p>
+
+                <br>
+
+                <div class="form-row">
+                    <label for="waketime">Waking Up Time, eg. 08:30</label>
                     <input class="form-control" type="text" placeholder="Waking Up Time" id="waketime" name="waketime">
                 </div>
+                <p id="error-waketime"></p>
 
                 <br>
 
                 <div class="form-row ">
-                    <label for="sleeptime">Sleeping Time</label>
+                    <label for="sleeptime">Sleeping Time, eg. 22:30</label>
                     <input class="form-control " type="text" placeholder="Sleeping Time" id="sleeptime" name="sleeptime">
                 </div>
+                <p id="error-sleeptime"></p>
 
                 <br>
-                <button type="submit " class="btn btn-primary " style="float:right ">Submit</button>
-            
             </form>
+            <button onClick = "handleSubmit()" class="btn btn-primary " style="float:right ">Submit</button>
             <br><br>
         </div>
     </div>
+
+    <script>
+        function handleSubmit() {
+            document.getElementById("error-uniqueidentifier").innerHTML = ""
+            document.getElementById("error-phonenumber").innerHTML = ""
+            document.getElementById("error-carrier").innerHTML = ""
+            document.getElementById("error-startdate").innerHTML = ""
+            document.getElementById("error-waketime").innerHTML = ""
+            document.getElementById("error-sleeptime").innerHTML = ""
+
+            // Check if a valid uniqueidentifier has been entered
+            var validSubmission = true
+            var val = document.getElementById("uniqueidentifier").value
+            if(val.length == 0) {
+                console.log("Invalid unique identifier")
+                document.getElementById("error-uniqueidentifier").innerHTML = "Invalid unique identifier"
+                document.getElementById("error-uniqueidentifier").style.color = "red"
+                validSubmission = false
+            }
+            // Check if phone number is valid
+            var phone2 = document.getElementById("phonenumber").value
+            var re2 = /(\d{10})/
+            var data2 = phone2.match(re2)
+            console.log(data2)
+            if(data2 == null) {
+                console.log("Invalid phone number")
+                document.getElementById("error-phonenumber").innerHTML = "Invalid phone number"
+                document.getElementById("error-phonenumber").style.color = "red"
+                validSubmission = false
+            }
+
+            // Check if carrier is valid
+            var carrier = document.getElementById("carrier").value
+            if(!carrier || carrier === "default") {
+                console.log("Invalid carrier choice")
+                document.getElementById("error-carrier").innerHTML = "Invalid carrier choice"
+                document.getElementById("error-carrier").style.color = "red"
+                validSubmission = false
+            }
+
+            var date = document.getElementById("startdate").value
+            var re3 = /(\d{2})\/(\d{2})\/(\d{4})/
+            var data3 = date.match(re3)
+            if(data3 == null) {
+                console.log("Invalid date")
+                document.getElementById("error-startdate").innerHTML = "Invalid date"
+                document.getElementById("error-startdate").style.color = "red"
+                validSubmission = false
+            }
+            
+            //waketime
+            //sleeptime
+            var time = document.getElementById("waketime").value
+            var re4 = /(\d{2}):(\d{2})/
+            var data4 = time.match(re4)
+            if(data4 == null) {
+                console.log("Invalid wake time")
+                document.getElementById("error-waketime").innerHTML = "Invalid wake time"
+                document.getElementById("error-waketime").style.color = "red"
+                validSubmission = false
+            }
+
+            var time2 = document.getElementById("sleeptime").value
+            var data5 = time2.match(re4)
+            if(data5 == null) {
+                console.log("Invalid sleep time")
+                document.getElementById("error-sleeptime").innerHTML = "Invalid sleep time"
+                document.getElementById("error-sleeptime").style.color = "red"
+                validSubmission = false
+            }
+
+            if(!validSubmission)
+                return
+            else
+                document.forms["addwakesleep"].submit()
+        }
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js " integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo "
         crossorigin="anonymous "></script>
@@ -57,6 +165,9 @@
         crossorigin="anonymous "></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js " integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy "
         crossorigin="anonymous "></script>
+    <script>
+
+    </script>
 </body>
 
 </html>

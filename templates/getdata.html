@@ -38,23 +38,19 @@
 			</button>
 			<br />
 			<p id="time"></p>
-			<button onClick="reset()">
-				Reset
-			</button>
 			<p id="completed"></p>
+			<p>Click the 'Start Breathing' button and begin breathing. <br> Record your breaths over a 30 second period by hitting the 'Register Breath' button for every breath you take.
+			<br> You can submit data after the breathing exercise is completed. </p>
 			<button id="takeBreath" onClick="takeBreath()">
 				Register Breath
 			</button>
 			<p id="numbreaths"></p>
-			<br />
-			<br />
+
+			<p id="validsubmission">
+			</p>
 			<button id="submit" onClick="submit()">
 				Submit
 			</button>
-			<p id="submitcancelled">
-			</p>
-			<p id="validsubmission">
-			</p>
 			<p id="envtest">
 			</p>
 		</div>
@@ -106,28 +102,6 @@
 			uniqueIdentifier = val
 		}
 
-		/*function getURL() {
-			var url = "http://127.0.0.1:5000/postbreath"
-			console.log(globalBreath)
-			xmlhttp = new XMLHttpRequest()
-			xmlhttp.open("POST", url, true)
-			xmlhttp.setRequestHeader("Content-type", "application/json")
-			var obj = {
-				"breaths": globalBreath,
-				"uniqueidentifier": uniqueIdentifier
-			}
-			xmlhttp.send(JSON.stringify(obj))
-			globalBreath = []
-			xmlhttp.onreadystatechange = function() { 
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
-                    console.log(xmlhttp.responseText)
-					if(xmlhttp.responseText === "True")
-						document.getElementById("validsubmission").innerHTML = "Successfully submitted!"
-					else 
-						document.getElementById("validsubmission").innerHTML = "You have already submitted for this period or there was an error"
-            }
-		}*/
-
 		function takeBreath() {
 			globalBreath.push(new Date().getTime())
 			console.log("Breath taken!")
@@ -161,7 +135,6 @@
 			myVar = setInterval(decrementTime, 1000)
 			isTimerRunning = true
 			updateButtonSettings()
-			document.getElementById("submitcancelled").innerHTML = "running!"
 		}
 
 		function decrementTime() {
@@ -171,20 +144,9 @@
 				document.getElementById("completed").innerHTML = "finished!"
 				clearInterval(myVar)
 				updateButtonSettings()
-				document.getElementById("submitcancelled").innerHTML = "not running!"
 			}
 			document.getElementById("time").innerHTML = timeLeft
 			timeLeft--
-		}
-
-		function reset() {
-			clearInterval(myVar)
-			isTimerDone = false
-			isTimerRunning = false
-			timeLeft = timeDuration
-			document.getElementById("time").innerHTML = timeLeft
-			updateButtonSettings()
-			document.getElementById("completed").innerHTML = ""
 		}
 
 		function updateButtonSettings() {

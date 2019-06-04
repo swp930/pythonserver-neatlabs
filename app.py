@@ -50,13 +50,13 @@ def get_by_id(id_):
     except Exception as e:
 	    return(str(e))
 
-@app.route("/getalldata")
+'''@app.route("/getalldata")
 def get_all_data():
 	try:
 		mooddata=MoodData.query.all()
 		return jsonify([e.serialize() for e in mooddata])
 	except Exception as e:
-		return(str(e))
+		return(str(e))'''
 
 @app.route("/getuserdata/<id_>")
 def getuserdata(id_):
@@ -98,9 +98,14 @@ def add_book_form():
 @app.route("/addwakesleeptime", methods=['GET', 'POST'])
 def addwakesleeptime():
     if request.method == 'POST':
+        startdate = request.form.get("startdate")
+        enddate = request.form.get("enddate")
+        phonenumber = request.form.get("phonenumber")
+        carrier = request.form.get("carrier")
         uniqueidentifier=request.form.get('uniqueidentifier')
         waketime=request.form.get('waketime')
         sleeptime=request.form.get('sleeptime')
+
         try:
             user=UserData.query.filter_by(uniqueidentifier=uniqueidentifier).first()
             print(user)
@@ -113,6 +118,9 @@ def addwakesleeptime():
             return(str(e))
         try:
             user=UserData(
+                startdate=startdate,
+                phonenumber=phonenumber,
+                carriersettings=carrier,
                 uniqueidentifier=uniqueidentifier,
                 waketime=waketime,
                 sleeptime=sleeptime
@@ -120,6 +128,7 @@ def addwakesleeptime():
             db.session.add(user)
             db.session.commit()
         except Exception as e:
+            print(str(e))
             return(str(e))
     return render_template("addwakesleep.html")
 

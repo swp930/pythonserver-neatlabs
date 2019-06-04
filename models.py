@@ -57,11 +57,17 @@ class UserData(db.Model):
     __tablename__ = 'userdata'
 
     id = db.Column(db.Integer, primary_key=True)
+    startdate = db.Column(db.String())
+    phonenumber = db.Column(db.String())
+    carriersettings = db.Column(db.String())
     uniqueidentifier = db.Column(db.String())
     waketime = db.Column(db.String())
     sleeptime = db.Column(db.String())
 
-    def __init__(self, uniqueidentifier, waketime, sleeptime):
+    def __init__(self, startdate, phonenumber, carriersettings, uniqueidentifier, waketime, sleeptime):
+        self.startdate = startdate
+        self.phonenumber = phonenumber
+        self.carriersettings = carriersettings
         self.uniqueidentifier = uniqueidentifier
         self.waketime = waketime
         self.sleeptime = sleeptime
@@ -72,8 +78,10 @@ class UserData(db.Model):
     def serialize(self):
         return {
             'id': self.id,
+            'startdate': self.startdate,
+            'phonenumber': self.phonenumber,
+            'carriersettings': self.carriersettings,
             'uniqueidentifier': self.uniqueidentifier,
             'waketime': self.waketime,
-            'sleeptime': self.sleeptime,
-            'email': 'not set'
+            'sleeptime': self.sleeptime
         }
