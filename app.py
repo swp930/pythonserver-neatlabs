@@ -76,7 +76,7 @@ def get_data_between():
     except Exception as e:
         return(str(e))
 
-@app.route("/add/form",methods=['GET', 'POST'])
+@app.route("/mindlog",methods=['GET', 'POST'])
 def add_book_form():
     if request.method == 'POST':
         name=request.form.get('name')
@@ -95,7 +95,7 @@ def add_book_form():
             return(str(e))
     return render_template("getdata.html")
 
-@app.route("/addwakesleeptime", methods=['GET', 'POST'])
+@app.route("/register", methods=['GET', 'POST'])
 def addwakesleeptime():
     if request.method == 'POST':
         startdate = request.form.get("startdate")
