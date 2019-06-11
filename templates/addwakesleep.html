@@ -18,7 +18,7 @@
             <br>
 
             <div class="row align-items-center justify-content-center">
-                <h1>Add/Update Wake up Sleep time (24 hr format)</h1>
+                <h1>Mind Log Registration</h1>
             </div>
             <br>
 
@@ -67,7 +67,7 @@
                 <br>
 
                 <div class="form-row">
-                    <label for="waketime">Waking Up Time, eg. 08:30</label>
+                    <label for="waketime">Wake Up Time, 24 hr format, eg. 08:30</label>
                     <input class="form-control" type="text" placeholder="Waking Up Time" id="waketime" name="waketime">
                 </div>
                 <p id="error-waketime"></p>
@@ -75,7 +75,7 @@
                 <br>
 
                 <div class="form-row ">
-                    <label for="sleeptime">Sleeping Time, eg. 22:30</label>
+                    <label for="sleeptime">Bed Time, 24 hr format, eg. 22:30</label>
                     <input class="form-control " type="text" placeholder="Sleeping Time" id="sleeptime" name="sleeptime">
                 </div>
                 <p id="error-sleeptime"></p>
@@ -83,6 +83,7 @@
                 <br>
             </form>
             <button onClick = "handleSubmit()" class="btn btn-primary " style="float:right ">Submit</button>
+            <p id="buttonsubmitted"></p>
             <br><br>
         </div>
     </div>
@@ -159,8 +160,10 @@
 
             if(!validSubmission)
                 return
-            else
+            else {
+                document.getElementById("buttonsubmitted").innerHTML = "Submitted"
                 document.forms["addwakesleep"].submit()
+            }
         }
     </script>
 
