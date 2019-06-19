@@ -95,6 +95,10 @@ def add_book_form():
             return(str(e))
     return render_template("getdata.html")
 
+@app.route("/mindlog/<id_>", methods=['GET'])
+def add_book_form_id(id_):
+    return render_template("getdata.html")
+
 @app.route("/register", methods=['GET', 'POST'])
 def addwakesleeptime():
     if request.method == 'POST':
@@ -227,6 +231,88 @@ def submit_post_breath():
                 datapoints=json.dumps([int(a, 10) for a in datapoints]),
                 date=datetime.datetime.now().astimezone(timezone('US/Pacific')),
                 uniqueidentifier=request.get_json()["uniqueidentifier"]
+			)
+            db.session.add(md)
+            db.session.commit()
+            return "True"
+        except Exception as e:
+            return(str(e))    
+        return 'completed'
+
+@app.route("/postbreath/<id_>",methods=['POST'])
+def submit_post_breath_2(id_):
+    if request.method == 'POST':
+        #print(request.get_json()["breaths"])
+        #print(request.get_json()["uniqueidentifier"])
+        print("POST BREATH")
+        #datapoints = []
+        datapoints = request.get_json()["datapoints"]
+        print(datapoints)
+        print(id_)
+        idfromurl=id_
+        #if(True):
+        #    return "True"
+        waketime = ""
+        sleeptime = ""
+        try:
+            user=UserData.query.filter_by(uniqueidentifier=idfromurl).first()
+            waketime = user.waketime
+            sleeptime = user.sleeptime
+        except Exception as e:
+	        return(str(e))
+        waketimedata = waketime.split(":")
+        sleeptimedata = sleeptime.split(":")
+        waketimehr = int(waketimedata[0], 10)
+        waketimemin = int(waketimedata[1], 10)
+        sleeptimehr = int(sleeptimedata[0], 10)
+        sleeptimemin = int(sleeptimedata[1], 10)
+        now = datetime.datetime.now()
+        now = now.astimezone(timezone('US/Pacific'))
+        #wakedate = datetime.datetime(now.year, now.month, now.day, waketimehr, waketimemin, 0)
+        #wakedate = wakedate.astimezone(timezone('US/Pacific'))
+        #sleepdate = datetime.datetime(now.year, now.month, now.day, sleeptimehr, sleeptimemin, 0)
+        #sleepdate = sleepdate.astimezone(timezone('US/Pacific'))
+        wakedate = now
+        sleepdate = now
+        wakedate = wakedate.replace(hour=waketimehr).replace(minute=waketimemin).replace(second=0).replace(microsecond=0)
+        sleepdate = sleepdate.replace(hour=sleeptimehr).replace(minute=sleeptimemin).replace(second=0).replace(microsecond=0)
+        print("Now post breath: ", now)
+        print("Wakedate: ", wakedate)
+        print("Sleepdate: ", sleepdate)
+        if(now < wakedate or now > sleepdate):
+            return "False out of range"
+        diff = abs(sleepdate - wakedate)
+        increment = diff/5
+        intervalStart = wakedate
+
+        while(intervalStart + increment <= sleepdate and not(now >= intervalStart and now <= (intervalStart + increment))):
+            intervalStart += increment
+        startTime = intervalStart
+        endTime = intervalStart + increment
+        print("Start time: ", startTime)
+        print("End time: ", endTime)
+        try:
+            mooddata=MoodData.query.filter_by(uniqueidentifier=idfromurl).\
+            filter(MoodData.date>=startTime).filter(MoodData.date<=endTime).all()
+            if(len(mooddata) > 0):
+                print("Invalid submission!")
+                print("Data: ", mooddata)
+                arr = [e.date.astimezone(timezone('US/Pacific')) for e in mooddata]
+                print("Dates for data: ", arr)
+                return "False already submitted"
+        except Exception as e:
+            print(str(e))
+            return(str(e))
+
+        print(startTime)
+        print(endTime)
+
+        try:
+            md = MoodData(
+				data=json.dumps(request.get_json()["breaths"]),
+                datapoints=json.dumps([int(a, 10) for a in datapoints]),
+                date=datetime.datetime.now().astimezone(timezone('US/Pacific')),
+                uniqueidentifier=idfromurl
 			)
             db.session.add(md)
             db.session.commit()

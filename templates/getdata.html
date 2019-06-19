@@ -18,7 +18,7 @@
 
 		<div class="container">
 			<br />
-			<input placeholder="Enter unique indentifier" onchange="changeVal(this.value)"></input>
+			<!--<input placeholder="Enter unique indentifier" onchange="changeVal(this.value)"></input>-->
 			<br />
 			<br />
 			<p>How quiet vs noisy is your environment right now?</p>
@@ -67,7 +67,7 @@
 		crossorigin="anonymous "></script>
 	<script>
 		var globalBreath = []
-		var timeDuration = 30
+		var timeDuration = 5
 		var timeLeft = timeDuration
 		var myVar
 		var isTimerDone = false
@@ -110,8 +110,9 @@
 
 		function submit() {
 			console.log(globalBreath)
+			var username = getUsername()
 			xmlhttp = new XMLHttpRequest()
-			xmlhttp.open("POST", url, true)
+			xmlhttp.open("POST", url+"/"+username, true)
 			xmlhttp.setRequestHeader("Content-type", "application/json")
 			var data = [data1, data2, data3, data4]
 			var obj = {
@@ -129,6 +130,14 @@
 				else
 					document.getElementById("validsubmission").innerHTML = "You have already submitted for this period or there was an error"
 			}
+		}
+
+		function getUsername() {
+			pathname = window.location.pathname
+			var rgx = /(\w+)\/(\w*)/
+			var data = pathname.match(rgx)
+			var username = data[2]
+			return username
 		}
 
 		function startTimer() {
