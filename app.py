@@ -76,7 +76,7 @@ def get_data_between():
     except Exception as e:
         return(str(e))
 
-@app.route("/mindlog",methods=['GET', 'POST'])
+'''@app.route("/mindlog",methods=['GET', 'POST'])
 def add_book_form():
     if request.method == 'POST':
         name=request.form.get('name')
@@ -93,7 +93,7 @@ def add_book_form():
             return "Book added. book id={}".format(book.id)
         except Exception as e:
             return(str(e))
-    return render_template("getdata.html")
+    return render_template("getdata.html")'''
 
 @app.route("/mindlog/<id_>", methods=['GET'])
 def add_book_form_id(id_):
