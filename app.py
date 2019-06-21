@@ -200,7 +200,7 @@ def submit_post_breath():
         if(now < wakedate or now > sleepdate):
             return "False out of range"
         diff = abs(sleepdate - wakedate)
-        increment = diff/5
+        increment = diff/4
         intervalStart = wakedate
 
         while(intervalStart + increment <= sleepdate and not(now >= intervalStart and now <= (intervalStart + increment))):
